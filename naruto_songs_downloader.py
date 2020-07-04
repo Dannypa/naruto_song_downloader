@@ -34,11 +34,11 @@ for title, src in songs.items():
     songs[title] = link
 i = 0
 for title in songs:
-    i += 1
     # i didn't like songs from movies:)
     if ('movie' in songs[title]) or not songs[title]:
         continue
     try:
+        i += 1
         song = requests.get(songs[title])
         # sorting sngs to directories
         directory = 'naruto_songs\\'
