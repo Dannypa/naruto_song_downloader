@@ -1,8 +1,11 @@
 import requests
 import bs4
 from urllib.request import urlopen
+import sys
+import time
 
 
+start = time.perf_counter()
 page = urlopen(
     'https://animenime.ru/naruto-muzyka-openingi-endingi-ost'
 ).read()
@@ -40,7 +43,7 @@ for title in songs:
     try:
         i += 1
         song = requests.get(songs[title])
-        # sorting sngs to directories
+        # sorting songs to directories
         directory = 'naruto_songs\\'
         if 'opening-tv-1' in songs[title]:
             directory += 'openings_season1\\'
@@ -52,10 +55,14 @@ for title in songs:
             directory += 'endings_season2\\'
         elif 'naruto-ost' in songs[title]:
             directory += 'ost_season1\\'
-        elif 'naruto-shippuuden-ost-1' in songs[title]:
+        elif 'naruto-shippuuden-ost' in songs[title]:
             directory += 'ost_season2\\'
         # creating mp.3 file
         with open(f'{directory}{i} {title}.mp3', 'wb') as f:
             f.write(song.content)
     except Exception as e:
         print(e)
+finish = time.perf_counter()
+print(
+    f"Succesfully downloaded {i} songs in {round(finish - start) // 60} m and {round(finish - start) % 60} s"
+)
